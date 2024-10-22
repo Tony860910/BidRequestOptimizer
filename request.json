@@ -1,0 +1,156 @@
+{
+    "regs": {
+        "coppa": 0,
+        "ext": {
+            "gdpr": 1
+        }
+    },
+    "id": "75c0238c-3b52-4b87-957a-817f83e853f1",
+    "site": {
+        "id": "adaptv_",
+        "publisher": {
+            "name": "",
+            "id": "adaptv_4182"
+        },
+        "cat": [
+            "IAB1"
+        ],
+        "page": "http://kissasian.com"
+    },
+    "wseat": [
+        "126"
+    ],
+    "source": {
+        "fd": 1,
+        "ext": {
+            "schain": {
+                "complete": 0,
+                "ver": "1.0",
+                "nodes": [
+                    {
+                        "asi": "reseller.com",
+                        "sid": "aaaaa",
+                        "rid": "BidRequest4",
+                        "hp": 1
+                    }
+                ]
+            }
+        }
+    },
+    "user": {
+        "id": "45asdf987656789adfad4678rew656789",
+        "buyeruid": "1234567890",
+        "keywords": "sports, entertainment",
+        "yob": 1976,
+        "gender": "F",
+        "ext": {
+            "ug": 1,
+            "cookie_age": 15,
+            "consent": "Y29uc2VudCBkYXRh",
+            "consented_providers_settings": {
+                "consented_providers": [
+                    1791
+                ]
+            },
+            "eids": [
+                {
+                    "source": "adserver.org",
+                    "uids": [
+                        {
+                            "id": "zzz",
+                            "atype": 1
+                        },
+                        {
+                            "id": "DB700403-9A24-4A4B-A8D5-8A0B4BE777D2",
+                            "atype": 2
+                        }
+                    ]
+                },
+                {
+                    "source": "liveintent.com",
+                    "uids": [
+                        {
+                            "id": "IPl4zj44RhezVyNE83bYfogYRN6W8LaCy3USy8dPQ==",
+                            "atype": 3
+                        }
+                    ]
+                },
+                {
+                    "source": "liveramp.com",
+                    "uids": [
+                        {
+                            "id": "0db20294a3908612bc7e732c2022095391074cf3"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "device": {
+        "language": "en",
+        "mccmnc": "310-005",
+        "geo": {
+            "country": "US",
+            "lon": -75.15,
+            "city": "Philadelphia",
+            "lat": 39.94,
+            "zip": "19147",
+            "region": "PA",
+            "type": 2
+        },
+        "lmt": 0,
+        "os": "Other",
+        "devicetype": 6,
+        "ip": "73.141.79.240",
+        "ua": "Mozilla/5.0 (PlayStation 4 3.55) AppleWebKit/537.78 (KHTML, like Gecko)"
+    },
+    "tmax": 120,
+    "cur": [
+        "USD"
+    ],
+    "imp": [
+        {
+            "id": "1",
+            "instl": 0,
+            "exp": 300,
+            "bidfloorcur": "USD",
+            "ext": {},
+            "video": {
+                "protocols": [
+                    2,
+                    5
+                ],
+                "placement": 2,
+                "skip": 1,
+                "playbackend": 1,
+                "minduration": 5,
+                "playbackmethod": [
+                    3
+                ],
+                "maxduration": 60,
+                "startdelay": 0,
+                "linearity": 1,
+                "mimes": [
+                    "video/mp4"
+                ]
+            }
+        }
+    ],
+    "bcat": [
+        "IAB25-3",
+        "BSW1",
+        "BSW2",
+        "BSW10",
+        "BSW4",
+        "IAB26"
+    ],
+    "ext": {
+        "wt": 1,
+        "clktrkrq": 0,
+        "is_secure": 0,
+        "ssp": "adaptv",
+        "media_src": "adaptv",
+        "s2s_nurl": 1
+    },
+    "at": 2
+}

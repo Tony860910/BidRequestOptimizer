@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Bid Request Check Report</title>
+            <style>
+            
+                 .report-table {
+                    margin-right:25px;
+                    width: 40%;
+                 }
+
+                .required-field {
+                    background-color: #E57373; /* Red background for required fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+
+                .recommended-field {
+                    background-color: #81C784; /* Green background for recommended fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+
+                .interesting-field {
+                    background-color: #64B5F6; /* Blue background for interesting fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+                
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background-color: #f9f9f9;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                header {
+                    background-color: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 20px;
+                    font-size: 24px;
+                }
+
+                footer {
+                    background-color: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 10px;
+                    font-size: 12px;
+                    position: fixed;
+                    width: 100%;
+                    bottom: 0;
+                }
+
+                .content {
+                    padding: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                h2 {
+                    color: #555;
+                    font-size: 18px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                }
+
+                .json-container {
+                    background-color: #f4f4f4;
+                    border-left: 1px solid #ddd;
+                    padding: 10px;
+                    font-family: 'Courier New', Courier, monospace;
+                    white-space: pre-wrap;
+                    overflow: auto;
+                    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                }
+                
+                .bid-request-container {
+                    position: relative;
+                    width: 55%;
+                }
+
+                .copy-button {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    padding: 5px 10px;
+                    background-color: #333;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                }
+
+                .copy-button:hover {
+                    background-color: #555;
+                }
+
+                .grade {
+                    color: white;
+                    font-size: 30px;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    background-color: #CDDC39;
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                .content-grade {
+                    padding: 20px;
+                }
+                .mandatory th {
+                     background-color: #E57373;
+                     color: white;
+                }
+                .recommended th {
+                    background-color: #81C784;
+                    color: white;
+                }  
+                .interesting th {
+                    background-color: #6a76bf;
+                    color: white;
+                } 
+                
+            </style>
+        </head>
+        <body>
+            <header>Bid request check report</header>
+            <div class="content-grade">
+                <h2>Grade: <span class="grade">B</span></h2>
+             </div>
+
+            <div class="content">
+
+                <div class="report-table">
+
+                    <h2>Mandatory Fields that are Missing</h2>
+                    <table>
+                        <thead class="mandatory">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3">None</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Recommended Fields We Think You Should Include</h2>
+                    <table>
+                        <thead class="recommended">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>user.buyeruid</td><td>string</td><td>Buyer’s user ID for recognizing their users.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Interesting Fields That Would be Helpful</h2>
+                    <table>
+                        <thead class="interesting">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>device.geo.region</td><td>string</td><td>Region code for regional targeting.</td></tr><tr><td>device.geo.city</td><td>string</td><td>City name for localized campaigns.</td></tr><tr><td>device.geo.zip</td><td>string</td><td>ZIP code for hyper-local targeting.</td></tr><tr><td>user.yob</td><td>integer</td><td>Year of birth for age-based targeting.</td></tr><tr><td>user.gender</td><td>string</td><td>Gender for gender-specific targeting.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bid-request-container">
+                    <h2>Optimized Bid Request</h2>
+                    <div class="json-container">
+                        <button class="copy-button" onclick="copyToClipboard()">Click to Copy</button>
+                        <span class="copy-feedback" id="copyFeedback">Copied!</span>
+                        <pre id="optimizedJson">{
+    "wlang": [
+        "en"
+    ],
+    "cur": [
+        "USD"
+    ],
+    "bcat": [
+        "IAB25",
+        "IAB26"
+    ],
+    "source": {
+        "ext": {
+            "schain": {
+                "complete": 1,
+                "nodes": [
+                    {
+                        "asi": "adyoulike.com",
+                        "hp": 1,
+                        "sid": "99f8ae6fac451755e14e3656c359771b",
+                        "rid": "784e59768a608c9ea3ac3f06a6b0e4f5"
+                    }
+                ],
+                "ver": "1.0"
+            },
+            "sourcetype": 3,
+            "sourceorigin": 2
+        }
+    },
+    "id": "784e59768a608c9ea3ac3f06a6b0e4f5",
+    "user": {
+        "ext": {
+            "consent": "",
+            "eids": [
+                {
+                    "source": "criteo.com",
+                    "uids": [
+                        {
+                            "id": "6yGwVl9vSERQcmRMZ0ZXN0MlMkJlcHp0YkxRc0FxcHlza2ZtSVNma1JXVGJCS0luY3djZ0FnOXo3bEtpSVUlMkJYZkYlMkZkeGR4Q2FDVUhSSUgxJTJGQkZJcnU0TyUyQmYzbUElM0QlM0Q",
+                            "atype": 1
+                        }
+                    ]
+                },
+                {
+                    "source": "audigent.com",
+                    "uids": [
+                        {
+                            "id": "060yl77bzu77b7ovgj5ibhagjg9ecjci7kbq022gsi22g26kqwyugseqwq6miwiu2",
+                            "atype": 1
+                        }
+                    ]
+                },
+                {
+                    "source": "id5-sync.com",
+                    "uids": [
+                        {
+                            "id": "ID5*-Oa-AqJy_a1Q0GjDktxox99pJjvNIxcaW0RY1RgokPi_K0sO22rbE33w7ITJmgG5",
+                            "atype": 1
+                        }
+                    ]
+                },
+                {
+                    "source": "crwdcntrl.net",
+                    "uids": [
+                        {
+                            "id": "93761c73da53a4774e866b6ec5674945a702ef214ee34c10cc8abe464582ef7a",
+                            "atype": 1
+                        }
+                    ]
+                },
+                {
+                    "source": "adserver.org",
+                    "uids": [
+                        {
+                            "id": "4c7f8e4b-fad5-4fb8-a4d8-85601dc1b067",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "uids": [
+                        {
+                            "id": "G8OoEBZHsIUzQHRfSZuDT92t",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ],
+                    "source": "sovrn.com"
+                },
+                {
+                    "source": "simplifi.com",
+                    "uids": [
+                        {
+                            "id": "3A00DFE2C0D04537AFD65844214FA5CE",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "pubmatic.com",
+                    "uids": [
+                        {
+                            "id": "2A6FEE14-09F3-4D87-8CDA-B1C2985BB670",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "smartadserver.com",
+                    "uids": [
+                        {
+                            "ext": {
+                                "stype": "ppuid"
+                            },
+                            "id": "3802716134030831709"
+                        }
+                    ]
+                },
+                {
+                    "source": "intentiq.com",
+                    "uids": [
+                        {
+                            "id": "DD03C4F9D29209EA63C5EAFF30D360512C978526F18F8F53CAC2F608E815D197",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "triplelift.com",
+                    "uids": [
+                        {
+                            "id": "4344768360189255306566",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "media.net",
+                    "uids": [
+                        {
+                            "ext": {
+                                "stype": "ppuid"
+                            },
+                            "id": "3633628920192917000V10"
+                        }
+                    ]
+                },
+                {
+                    "source": "mediaforce.com",
+                    "uids": [
+                        {
+                            "id": "15df6521-49e5-4e41-923e-26af40c91f05",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "rubiconproject.com",
+                    "uids": [
+                        {
+                            "id": "LJAFTK7A-19-C9VH",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "bidswitch.net",
+                    "uids": [
+                        {
+                            "id": "c988d442-b050-4481-be32-d0e3682bef91",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "onetag.com",
+                    "uids": [
+                        {
+                            "id": "sOeam29G_VELiyQxi7uCtFphCCITzs7TUnY3DS1iSgQ",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "neustar.biz",
+                    "uids": [
+                        {
+                            "ext": {
+                                "stype": "ppuid"
+                            },
+                            "id": "208160804550005776433"
+                        }
+                    ]
+                },
+                {
+                    "source": "adnxs.com",
+                    "uids": [
+                        {
+                            "id": "5795835563879148466",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "yieldmo.com",
+                    "uids": [
+                        {
+                            "id": "g8bf89b88e7e356e5f33",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "source": "rhythmone.com",
+                    "uids": [
+                        {
+                            "ext": {
+                                "stype": "ppuid"
+                            },
+                            "id": "RX-32f2e0aa-087d-4a7a-a45b-d1649881cd13-005"
+                        }
+                    ]
+                },
+                {
+                    "uids": [
+                        {
+                            "id": "y-mYqfm4BE2uGlFrWc2JA3CLU6C.i_veyH~A",
+                            "ext": {
+                                "stype": "ppuid"
+                            }
+                        }
+                    ],
+                    "source": "aol.com"
+                },
+                {
+                    "source": "pubcid.org",
+                    "uids": [
+                        {
+                            "id": "ded6cd66-d909-4cab-8946-bde52ac98e53",
+                            "atype": 1
+                        }
+                    ]
+                }
+            ],
+            "is_registered": false
+        },
+        "id": "000000000000000000000000b00b1337",
+        "buyeruid": "This field (user.buyeruid) is __recommended__",
+        "yob": "This field (user.yob) is __interesting__",
+        "gender": "This field (user.gender) is __interesting__"
+    },
+    "at": 1,
+    "tmax": 50000,
+    "regs": {
+        "ext": {
+            "gdpr": 0,
+            "us_privacy": ""
+        }
+    },
+    "imp": [
+        {
+            "instl": 0,
+            "tagid": "65e5ca2d438fac46f7c54f0c",
+            "bidfloor": 0.756,
+            "bidfloorcur": "USD",
+            "secure": 1,
+            "id": "2fe1084ffe44c28350116ec0a0a1c2d1:0422bb59e8c2edb3f6fd8ddc2285921f:5:8",
+            "video": {
+                "h": 414,
+                "maxextended": 30,
+                "delivery": [
+                    2,
+                    1
+                ],
+                "pos": 1,
+                "api": [
+                    2,
+                    7
+                ],
+                "minduration": 1,
+                "protocols": [
+                    2,
+                    5,
+                    3,
+                    6
+                ],
+                "w": 736,
+                "playbackmethod": [
+                    2
+                ],
+                "boxingallowed": 1,
+                "placement": 3,
+                "plcmt": 2,
+                "mimes": [
+                    "video/mp4",
+                    "application/javascript"
+                ],
+                "maxduration": 210
+            }
+        }
+    ],
+    "site": {
+        "id": "ff456649e49a461a24abe2495db8b91d",
+        "domain": "www.exploredplanet.com",
+        "publisher": {
+            "id": "160925",
+            "name": "Hive",
+            "domain": "www.hivemedia.com"
+        },
+        "content": {
+            "language": "en"
+        },
+        "page": "https://www.exploredplanet.com/info/most-overrated-tourist-attractions-in-the-us/"
+    },
+    "device": {
+        "os": "UNKNOWN",
+        "osv": "UNKNOWN",
+        "language": "en",
+        "ua": "Mozilla/5.0 (iPad; CPU OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1",
+        "geo": {
+            "type": 2,
+            "country": "USA",
+            "utcoffset": -300,
+            "lat": 37.751,
+            "lon": -97.822,
+            "region": "This field (device.geo.region) is __interesting__",
+            "city": "This field (device.geo.city) is __interesting__",
+            "zip": "This field (device.geo.zip) is __interesting__"
+        },
+        "dnt": 0,
+        "ip": "136.38.77.194",
+        "devicetype": 2
+    }
+}</pre>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer>Created by Anthony Da Cunha</footer>
+
+   <script>
+    function copyToClipboard() {
+        const jsonText = document.getElementById('optimizedJson').innerText;
+        const textarea = document.createElement('textarea');
+        textarea.value = jsonText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        // Show feedback message after copying
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'inline'; // Show the "Copied!" message
+        setTimeout(() => {
+            feedback.style.display = 'none'; // Hide it after 2 seconds
+        }, 2000);
+    }
+
+    function highlightAddedFields() {
+        const jsonContainer = document.getElementById('optimizedJson');
+        let jsonText = jsonContainer.innerHTML;
+
+        // Replace markers with styled spans
+        jsonText = jsonText.replace(/__required__/g, '<span class="required-field">required</span>');
+        jsonText = jsonText.replace(/__recommended__/g, '<span class="recommended-field">recommended</span>');
+        jsonText = jsonText.replace(/__interesting__/g, '<span class="interesting-field">interesting to have</span>');
+
+        // Update the container with the highlighted text
+        jsonContainer.innerHTML = jsonText;
+    }
+
+    // Call the function after the page has loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        highlightAddedFields();
+        // Initially hide the "Copied!" message
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'none';  // Ensure the feedback is hidden on page load
+    });
+</script>
+
+
+        </body>
+        </html>

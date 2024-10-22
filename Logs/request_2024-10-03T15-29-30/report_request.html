@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Bid Request Check Report</title>
+            <style>
+            
+                 .report-table {
+                    margin-right:25px;
+                    width: 40%;
+                 }
+
+                .required-field {
+                    background-color: #E57373; /* Red background for required fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+
+                .recommended-field {
+                    background-color: #81C784; /* Green background for recommended fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+
+                .interesting-field {
+                    background-color: #64B5F6; /* Blue background for interesting fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+                
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background-color: #f9f9f9;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                header {
+                    background-color: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 20px;
+                    font-size: 24px;
+                }
+
+                footer {
+                    background-color: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 10px;
+                    font-size: 12px;
+                    position: fixed;
+                    width: 100%;
+                    bottom: 0;
+                }
+
+                .content {
+                    padding: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                h2 {
+                    color: #555;
+                    font-size: 18px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                }
+
+                .json-container {
+                    background-color: #f4f4f4;
+                    border-left: 1px solid #ddd;
+                    padding: 10px;
+                    font-family: 'Courier New', Courier, monospace;
+                    white-space: pre-wrap;
+                    overflow: auto;
+                    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                }
+                
+                .bid-request-container {
+                    position: relative;
+                    width: 55%;
+                }
+
+                .copy-button {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    padding: 5px 10px;
+                    background-color: #333;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                }
+
+                .copy-button:hover {
+                    background-color: #555;
+                }
+
+                .grade {
+                    color: white;
+                    font-size: 30px;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    background-color: #FFC107;
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                .content-grade {
+                    padding: 20px;
+                }
+                .mandatory th {
+                     background-color: #E57373;
+                     color: white;
+                }
+                .recommended th {
+                    background-color: #81C784;
+                    color: white;
+                }  
+                .interesting th {
+                    background-color: #6a76bf;
+                    color: white;
+                } 
+                
+            </style>
+        </head>
+        <body>
+            <header>Bid request check report</header>
+            <div class="content-grade">
+                <h2>Grade: <span class="grade">C</span></h2>
+             </div>
+
+            <div class="content">
+
+                <div class="report-table">
+
+                    <h2>Mandatory Fields that are Missing</h2>
+                    <table>
+                        <thead class="mandatory">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3">None</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Recommended Fields We Think You Should Include</h2>
+                    <table>
+                        <thead class="recommended">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>user.ext.consent</td><td>string</td><td>User consent string for GDPR compliance.</td></tr><tr><td>user.id</td><td>string</td><td>Unique user ID for frequency capping and matching.</td></tr><tr><td>user.buyeruid</td><td>string</td><td>Buyer’s user ID for recognizing their users.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Interesting Fields That Would be Helpful</h2>
+                    <table>
+                        <thead class="interesting">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>user.yob</td><td>integer</td><td>Year of birth for age-based targeting.</td></tr><tr><td>user.gender</td><td>string</td><td>Gender for gender-specific targeting.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bid-request-container">
+                    <h2>Optimized Bid Request</h2>
+                    <div class="json-container">
+                        <button class="copy-button" onclick="copyToClipboard()">Click to Copy</button>
+                        <span class="copy-feedback" id="copyFeedback">Copied!</span>
+                        <pre id="optimizedJson">{
+    "regs": {
+        "ext": {
+            "us_privacy": "",
+            "gdpr": 0
+        }
+    },
+    "id": "187d7780-bc5a-358d-82b5-fb615f43934e",
+    "imp": [
+        {
+            "bidfloor": 1.319,
+            "id": "1",
+            "displaymanager": "AdYouLike Tag",
+            "tagid": "adyoulike_5a5a337e-0a19-40d7-b4c5-d9ecd0f52ee7",
+            "ext": {
+                "notification_type": 1
+            },
+            "pmp": {
+                "private_auction": 0,
+                "deals": [
+                    {
+                        "bidfloor": 0.1,
+                        "id": "e5f50d1946fe3b27b72d12caa1cc21c3",
+                        "bidfloorcur": "USD",
+                        "wseat": [
+                            "16"
+                        ],
+                        "at": 1
+                    }
+                ]
+            },
+            "exp": 3600,
+            "banner": {
+                "format": [
+                    {
+                        "h": 250,
+                        "w": 300
+                    }
+                ],
+                "ext": {},
+                "pos": 0,
+                "h": 250,
+                "w": 300,
+                "mimes": [
+                    "text/html",
+                    "image/jpg",
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif"
+                ]
+            },
+            "bidfloorcur": "USD",
+            "displaymanagerver": "latest",
+            "secure": 1,
+            "instl": 0
+        }
+    ],
+    "bcat": [
+        "IAB25",
+        "BSW12",
+        "IAB25-3",
+        "BSW10",
+        "IAB9-9",
+        "BSW4",
+        "IAB26"
+    ],
+    "user": {
+        "ext": {
+            "ug": 0,
+            "consent": "This field (user.ext.consent) is __recommended__"
+        },
+        "id": "This field (user.id) is __recommended__",
+        "buyeruid": "This field (user.buyeruid) is __recommended__",
+        "yob": "This field (user.yob) is __interesting__",
+        "gender": "This field (user.gender) is __interesting__"
+    },
+    "wseat": [
+        "16"
+    ],
+    "device": {
+        "ua": "Mozilla/5.0 (Linux; Android 14; SM-A156U Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/126.0.6478.186 Mobile Safari/537.36",
+        "model": "Galaxy Note20 5G",
+        "language": "en",
+        "geo": {
+            "city": "West Palm Beach",
+            "lon": -80.1955,
+            "lat": 26.0162,
+            "region": "FL",
+            "type": 2,
+            "utcoffset": -240,
+            "zip": "33407",
+            "metro": "528",
+            "country": "US"
+        },
+        "make": "Samsung",
+        "osv": "UNKNOWN",
+        "os": "ANDROID",
+        "devicetype": 4,
+        "ip": "73.84.50.0",
+        "lmt": 0,
+        "dnt": 0
+    },
+    "tmax": 428,
+    "cur": [
+        "USD"
+    ],
+    "source": {
+        "pchain": "-35d5010d7789b49d:adyoulike",
+        "ext": {
+            "schain": {
+                "nodes": [
+                    {
+                        "hp": 1,
+                        "sid": "e85fac2d-f99b-492c-ba9e-3874ed0f3f00",
+                        "asi": "aps.amazon.com"
+                    },
+                    {
+                        "hp": 1,
+                        "sid": "7463c359225e043c111036d7a29affa5",
+                        "rid": "5308e763550270861d599c2e054e4164",
+                        "asi": "adyoulike.com"
+                    },
+                    {
+                        "sid": "7463c359225e043c111036d7a29affa5",
+                        "hp": 1,
+                        "rid": "187d7780-bc5a-358d-82b5-fb615f43934e",
+                        "asi": "bidswitch.com"
+                    }
+                ],
+                "complete": 1,
+                "ver": "1.0"
+            }
+        }
+    },
+    "app": {
+        "id": "adyoulike_0d8a1e0a4eee4da19ea88d757771ca0b",
+        "publisher": {
+            "domain": "amazon.com",
+            "id": "adyoulike_7463c359225e043c111036d7a29affa5",
+            "name": "Amazon UAM"
+        },
+        "storeurl": "https://play.google.com/store/apps/details?id=tunein.player",
+        "content": {
+            "context": 0
+        },
+        "bundle": "tunein.player",
+        "domain": "tunein.com"
+    },
+    "ext": {
+        "clktrkrq": 0,
+        "ads_txt": {
+            "supplier_domain": "adyoulike.com",
+            "pub_id": "7463c359225e043c111036d7a29affa5",
+            "status": 2,
+            "auth_id": "4ad745ead2958bf7"
+        },
+        "tgroup": [
+            3036
+        ],
+        "undc": 0,
+        "wt": 40.8,
+        "media_src": "adyoulike",
+        "ssp": "adyoulike",
+        "is_secure": 1
+    },
+    "at": 1
+}</pre>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer>Created by Anthony Da Cunha</footer>
+
+   <script>
+    function copyToClipboard() {
+        const jsonText = document.getElementById('optimizedJson').innerText;
+        const textarea = document.createElement('textarea');
+        textarea.value = jsonText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        // Show feedback message after copying
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'inline'; // Show the "Copied!" message
+        setTimeout(() => {
+            feedback.style.display = 'none'; // Hide it after 2 seconds
+        }, 2000);
+    }
+
+    function highlightAddedFields() {
+        const jsonContainer = document.getElementById('optimizedJson');
+        let jsonText = jsonContainer.innerHTML;
+
+        // Replace markers with styled spans
+        jsonText = jsonText.replace(/__required__/g, '<span class="required-field">required</span>');
+        jsonText = jsonText.replace(/__recommended__/g, '<span class="recommended-field">recommended</span>');
+        jsonText = jsonText.replace(/__interesting__/g, '<span class="interesting-field">interesting to have</span>');
+
+        // Update the container with the highlighted text
+        jsonContainer.innerHTML = jsonText;
+    }
+
+    // Call the function after the page has loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        highlightAddedFields();
+        // Initially hide the "Copied!" message
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'none';  // Ensure the feedback is hidden on page load
+    });
+</script>
+
+
+        </body>
+        </html>

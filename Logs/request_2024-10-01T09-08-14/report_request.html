@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Bid Request Check Report</title>
+            <style>
+            
+                 .report-table {
+                    margin-right:25px;
+                 }
+
+                .required-field {
+                    background-color: #E57373; /* Red background for required fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+
+                .recommended-field {
+                    background-color: #81C784; /* Green background for recommended fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+
+                .interesting-field {
+                    background-color: #64B5F6; /* Blue background for interesting fields */
+                    color: white;
+                    padding: 2px 4px;
+                    border-radius: 4px;
+                }
+                
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background-color: #f9f9f9;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                header {
+                    background-color: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 20px;
+                    font-size: 24px;
+                }
+
+                footer {
+                    background-color: #333;
+                    color: white;
+                    text-align: center;
+                    padding: 10px;
+                    font-size: 12px;
+                    position: fixed;
+                    width: 100%;
+                    bottom: 0;
+                }
+
+                .content {
+                    padding: 20px;
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                h2 {
+                    color: #555;
+                    font-size: 18px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
+                }
+
+                th, td {
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                }
+
+                .json-container {
+                    background-color: #f4f4f4;
+                    border-left: 1px solid #ddd;
+                    padding: 10px;
+                    font-family: 'Courier New', Courier, monospace;
+                    white-space: pre-wrap;
+                    overflow: auto;
+                    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                }
+                
+                .bid-request-container {
+                    position: relative;
+                }
+
+                .copy-button {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    padding: 5px 10px;
+                    background-color: #333;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                }
+
+                .copy-button:hover {
+                    background-color: #555;
+                }
+
+                .grade {
+                    color: white;
+                    font-size: 30px;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    background-color: #8BC34A;
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                .content-grade {
+                    padding: 20px;
+                }
+                .mandatory th {
+                     background-color: #E57373;
+                     color: white;
+                }
+                .recommended th {
+                    background-color: #81C784;
+                    color: white;
+                }  
+                .interesting th {
+                    background-color: #6a76bf;
+                    color: white;
+                } 
+                
+            </style>
+        </head>
+        <body>
+            <header>Bid request check report</header>
+            <div class="content-grade">
+                <h2>Grade: <span class="grade">A</span></h2>
+             </div>
+
+            <div class="content">
+
+                <div class="report-table">
+
+                    <h2>Mandatory Fields that are Missing</h2>
+                    <table>
+                        <thead class="mandatory">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3">None</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Recommended Fields We Think You Should Include</h2>
+                    <table>
+                        <thead class="recommended">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="3">All recommended fields are present.</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h2>Interesting Fields That Would be Helpful</h2>
+                    <table>
+                        <thead class="interesting">
+                            <tr>
+                                <th>Attribute</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>user.yob</td><td>integer</td><td>Year of birth for age-based targeting.</td></tr><tr><td>user.gender</td><td>string</td><td>Gender for gender-specific targeting.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bid-request-container">
+                    <h2>Optimized Bid Request</h2>
+                    <div class="json-container">
+                        <button class="copy-button" onclick="copyToClipboard()">Click to Copy</button>
+                        <span class="copy-feedback" id="copyFeedback">Copied!</span>
+                        <pre id="optimizedJson">{
+    "at": 1,
+    "bcat": [
+        "IAB7-5",
+        "IAB7-44",
+        "IAB11-4",
+        "IAB12",
+        "IAB12-1",
+        "IAB12-2",
+        "IAB12-3",
+        "IAB13",
+        "IAB13-1",
+        "IAB13-2",
+        "IAB13-3",
+        "IAB13-4",
+        "IAB13-5",
+        "IAB13-6",
+        "IAB13-7",
+        "IAB13-8",
+        "IAB13-9",
+        "IAB13-10",
+        "IAB13-11",
+        "IAB13-12",
+        "IAB14-1",
+        "IAB25",
+        "IAB26"
+    ],
+    "cur": [
+        "USD"
+    ],
+    "device": {
+        "devicetype": 4,
+        "dnt": 0,
+        "geo": {
+            "city": "GBLON",
+            "country": "GBR",
+            "lat": 51.5088,
+            "lon": -0.093,
+            "region": "ENG",
+            "type": 2,
+            "utcoffset": 60,
+            "zip": "EC4R"
+        },
+        "ip": "31.94.22.0",
+        "language": "en",
+        "make": "Unknown",
+        "model": "Generic Android",
+        "os": "ANDROID",
+        "osv": "10.0",
+        "ua": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36"
+    },
+    "ext": {
+        "google_audiences": "Collectable"
+    },
+    "id": "87d71cf64ec2bc250a531f9739621bf1",
+    "imp": [
+        {
+            "bidfloor": 0.117,
+            "bidfloorcur": "USD",
+            "displaymanager": "IMA",
+            "displaymanagerver": "latest",
+            "exp": 1800,
+            "id": "2a62ca3297af454b8f19eb7922ed945f:86edea5f24e6225a3fcc6b851c8cd6d7:5:3",
+            "instl": 0,
+            "pmp": {
+                "deals": [
+                    {
+                        "at": 1,
+                        "bidfloor": 0.5,
+                        "bidfloorcur": "USD",
+                        "id": "1850027dacce43ca669a55c5324dd0ac"
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 4,
+                        "bidfloorcur": "USD",
+                        "id": "1bc84f289d793fc79dc0f7f22c58ee45",
+                        "wseat": [
+                            "339"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 4,
+                        "bidfloorcur": "USD",
+                        "id": "d11758d2a10990974e9b105b046be63d",
+                        "wseat": [
+                            "76"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 4,
+                        "bidfloorcur": "USD",
+                        "id": "bb8331d480f43bf2563364a1f3efe637",
+                        "wseat": [
+                            "16"
+                        ]
+                    }
+                ]
+            },
+            "secure": 1,
+            "tagid": "/3048/d.thesun.amp/fabulous/real-life",
+            "video": {
+                "api": [
+                    1,
+                    2
+                ],
+                "h": 250,
+                "maxduration": 600,
+                "mimes": [
+                    "video/mp4",
+                    "video/webm",
+                    "application/javascript"
+                ],
+                "minduration": 1,
+                "playbackmethod": [
+                    2
+                ],
+                "protocols": [
+                    2,
+                    5
+                ],
+                "w": 300
+            }
+        },
+        {
+            "bidfloor": 0.117,
+            "bidfloorcur": "USD",
+            "displaymanager": "AdYouLike Tag",
+            "displaymanagerver": "latest",
+            "exp": 1800,
+            "id": "2a62ca3297af454b8f19eb7922ed945f:86edea5f24e6225a3fcc6b851c8cd6d7:2:2",
+            "instl": 0,
+            "native": {
+                "request": "{\"ver\":\"1.1\",\"layout\":6,\"adunit\":5,\"assets\":[{\"id\":1,\"required\":1,\"title\":{\"len\":60}},{\"id\":2,\"required\":1,\"img\":{\"type\":3,\"wmin\":477,\"hmin\":250}},{\"id\":3,\"required\":0,\"img\":{\"type\":1,\"w\":50,\"wmin\":50,\"h\":50,\"hmin\":50}},{\"id\":4,\"required\":0,\"img\":{\"type\":2,\"w\":50,\"wmin\":50,\"h\":50,\"hmin\":50}},{\"id\":5,\"required\":0,\"data\":{\"type\":2,\"len\":200}},{\"id\":6,\"required\":0,\"data\":{\"type\":1,\"len\":25}},{\"id\":7,\"required\":0,\"data\":{\"type\":12,\"len\":60}},{\"id\":9,\"required\":0,\"data\":{\"type\":11,\"len\":25}},{\"id\":10,\"required\":0,\"data\":{\"type\":3}},{\"id\":11,\"required\":0,\"data\":{\"type\":4}},{\"id\":12,\"required\":0,\"data\":{\"type\":5}},{\"id\":13,\"required\":0,\"data\":{\"type\":6}},{\"id\":14,\"required\":0,\"data\":{\"type\":7}},{\"id\":16,\"required\":0,\"data\":{\"type\":9,\"len\":25}},{\"id\":15,\"required\":0,\"data\":{\"type\":8,\"len\":15}},{\"id\":17,\"required\":0,\"data\":{\"type\":10,\"len\":200}}],\"privacy\":1}",
+                "ver": "1.1"
+            },
+            "pmp": {
+                "deals": [
+                    {
+                        "at": 1,
+                        "bidfloor": 0.1,
+                        "bidfloorcur": "USD",
+                        "id": "8f919aab925c78208d7c352e5c938432"
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "6c506f4759c27a066c3eb2eed0e45990",
+                        "wseat": [
+                            "76"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "ef9be6088da44f00fe3e654a5410eaa8",
+                        "wseat": [
+                            "76"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 2,
+                        "bidfloorcur": "USD",
+                        "id": "9722a3778b66837ccc48c3ae30697c35",
+                        "wseat": [
+                            "339"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "1812b418aa70c0b296139c23aef088a0"
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "002ce736fc36d80d9bd0390cb22a4d2e",
+                        "wseat": [
+                            "16"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "bf40b7a78036b4936b74c4089b7db2ed",
+                        "wseat": [
+                            "339"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 2,
+                        "bidfloorcur": "USD",
+                        "id": "0bf519063494aedd6f8af8146e55bb60",
+                        "wseat": [
+                            "74"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "3a6f0a52e523acdc3c55a2200d63c609",
+                        "wseat": [
+                            "16"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "eae43fade279fc6e9edf4f8d2e80e455",
+                        "wseat": [
+                            "16"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "cedd3dd489f35808e56d425cecaa1eb5",
+                        "wseat": [
+                            "16"
+                        ]
+                    }
+                ]
+            },
+            "secure": 1,
+            "tagid": "/3048/d.thesun.amp/fabulous/real-life"
+        },
+        {
+            "banner": {
+                "format": [
+                    {
+                        "h": 600,
+                        "w": 300
+                    },
+                    {
+                        "h": 250,
+                        "w": 300
+                    }
+                ],
+                "h": 250,
+                "id": "31f79443a0994378a350142f60ff499f",
+                "mimes": [
+                    "text/html",
+                    "image/jpg",
+                    "image/jpeg",
+                    "image/png",
+                    "image/gif"
+                ],
+                "pos": 0,
+                "w": 300
+            },
+            "bidfloor": 0.117,
+            "bidfloorcur": "USD",
+            "displaymanager": "AdYouLike Tag",
+            "displaymanagerver": "latest",
+            "exp": 1800,
+            "id": "2a62ca3297af454b8f19eb7922ed945f:86edea5f24e6225a3fcc6b851c8cd6d7:4:9",
+            "instl": 0,
+            "pmp": {
+                "deals": [
+                    {
+                        "at": 1,
+                        "bidfloor": 0.5,
+                        "bidfloorcur": "USD",
+                        "id": "5a1492c16fbb5622d5069c8959cd3acb"
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 1,
+                        "bidfloorcur": "USD",
+                        "id": "aa999effe549969ce49b870eb94b99ec",
+                        "wseat": [
+                            "354"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 0.1,
+                        "bidfloorcur": "USD",
+                        "id": "019b042a29908cfb779ef202534d85e9",
+                        "wseat": [
+                            "13"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 0.5,
+                        "bidfloorcur": "USD",
+                        "id": "3faddfdee4d89862c5c2109dce46ef66",
+                        "wseat": [
+                            "76"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 0.1,
+                        "bidfloorcur": "USD",
+                        "id": "52fbddbe8ec8de02da7820a41971631f"
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 5,
+                        "bidfloorcur": "USD",
+                        "id": "389f0c56ea5a5d1bdbf18df4eb525b85",
+                        "wseat": [
+                            "16"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 4,
+                        "bidfloorcur": "USD",
+                        "id": "d2396e14f2771447aed08843cad3051d",
+                        "wseat": [
+                            "16"
+                        ]
+                    },
+                    {
+                        "at": 1,
+                        "bidfloor": 0.5,
+                        "bidfloorcur": "USD",
+                        "id": "5337a2ead54ea1bab92c29a991b5be47",
+                        "wseat": [
+                            "16"
+                        ]
+                    }
+                ]
+            },
+            "secure": 1,
+            "tagid": "/3048/d.thesun.amp/fabulous/real-life"
+        }
+    ],
+    "regs": {
+        "ext": {
+            "gdpr": 1,
+            "tcf_version": 2,
+            "us_privacy": ""
+        }
+    },
+    "site": {
+        "content": {},
+        "domain": "www.thesun.co.uk",
+        "id": "7bf2be1aa72c8bdb51635a62bf961425d5840f3d",
+        "keywords": "amp=1",
+        "name": "thesun.co.uk",
+        "page": "https://www.thesun.co.uk/fabulous/28082608/how-to-clean-patio-slabs-cheap-bleach/",
+        "publisher": {
+            "domain": "www.news.co.uk",
+            "id": "311266baaa4e5a3cb79bd772f21ba678",
+            "name": "News UK [HB]"
+        }
+    },
+    "source": {
+        "ext": {
+            "schain": {
+                "complete": 1,
+                "nodes": [
+                    {
+                        "asi": "adyoulike.com",
+                        "hp": 1,
+                        "rid": "87d71cf64ec2bc250a531f9739621bf1",
+                        "sid": "311266baaa4e5a3cb79bd772f21ba678"
+                    }
+                ],
+                "ver": "1.0"
+            },
+            "sourceorigin": 3,
+            "sourcetype": 3
+        }
+    },
+    "tmax": 500,
+    "user": {
+        "buyerid": "e0e2c9a5-b9b9-4ed4-91e1-740965461419",
+        "buyeruid": "e0e2c9a5-b9b9-4ed4-91e1-740965461419",
+        "ext": {
+            "consent": "CP-gEEAP-gEEAAGABCENAzEkAP_gAAAAAAYgJVtF9H5eSXVjcHp1YPt0eYUXwFgRqsAgBhMBg6IBSJOUpIwGlGAyJAyChiACCRIAIFJAAAFlGABQAEAAYIABgRCMAEAEgAIIJCAEAAABQgBAABgJAAEAEACApEB2EAQAyAIIWRsAQAAAAAEgAAAUACAEAIAAAAAAAAAAQAAAAAAAAAAgAAAAAAAAAAAAABAAAAAAAAAAAIAAADAkCoABAAC4AKAAqABwADwAIAAYQAyADUAHgARAAmABVADMAG8APQAfgBCACOAEsAJqAZQBlgDZAHOAO6AewB8AD7AH6AQAAjABJQCggGiANoAcQBHoChwFHgLYAXmAyQBtADdQgAkABwAJAAjgEHAI4ASkAmgDFgGQjoGYAC4AKAAqABwAEAALgAYQAyADUAHgARAAmABVgC4ALoAYgAzABvAD0AH4ASwAmgBRgDKAGiANkAc4A7oB7AHwAPsAfoBFgCMAEdAJKAUEAsQBtADiAHUAPsAi8BHoCZAFDgKPAWLAtgC2QF5gMkAaaA2gBuoDixwBkABAADgALgAkAB-AEcANAAjgBmgDkAIBAQcBCACIgEcAJSATQBMQCuwFqALoAYIAxYBkID7QJIkICYACwAKAAuABqAEwAKoAXAAxABvAD0AI4Ac4A7gCUgFBANoAdQBHoCxSAAcABAAaAByAEcALEAwQCSJKAsAAgABYAFAAOAAwAB4AEQAJgAVQAuABiAEcAKMAbIB1AEXgI9AUeAsUBbAC8wGSEgBAAFwAjgDuAIAAQcAjgCYgGLFIEgAC4AKAAqABwAEAAMIAZABqADwAIgATAApABVADEAGYAPwAowBlADRAGyAOcAfoBFgCMAEdAJKAUEA2gB1AD7AIvAR6AocBYoC2AF5gMkAbqUAMgAKAAuACQAFwARwBHADkAHcAPsAgABBwCOAEpALEAXUA14B2wD_gJiAV2AugBggDFgH2gSRLQBAAagCOAHcAfYsAEAGWARwBHoCYgAAA.YAAAAAAAAAAA",
+            "consented_providers_settings": {
+                "consented_providers": [
+                    229,
+                    2709,
+                    2892,
+                    2779,
+                    2247,
+                    1241,
+                    2410,
+                    2706,
+                    2662,
+                    2437,
+                    2663,
+                    2579,
+                    2278,
+                    62,
+                    797,
+                    2290,
+                    2928,
+                    1741,
+                    12,
+                    782,
+                    209,
+                    195,
+                    1733,
+                    2176,
+                    1514,
+                    2705,
+                    2079,
+                    2802,
+                    987,
+                    575,
+                    976,
+                    528,
+                    153,
+                    2810,
+                    1875,
+                    271,
+                    178,
+                    1801,
+                    1945,
+                    1986,
+                    1858,
+                    2622,
+                    363,
+                    221,
+                    2704,
+                    442,
+                    2382,
+                    2346,
+                    22,
+                    1047,
+                    2868,
+                    86,
+                    933,
+                    537,
+                    1468,
+                    348,
+                    1520,
+                    161,
+                    492,
+                    80,
+                    2059,
+                    438,
+                    2062,
+                    1063,
+                    2786,
+                    1028,
+                    1642,
+                    1684,
+                    814,
+                    1167,
+                    725,
+                    1705,
+                    35,
+                    126,
+                    154,
+                    314,
+                    1025,
+                    1652,
+                    359,
+                    310,
+                    2829,
+                    432,
+                    1517,
+                    2778,
+                    294,
+                    503,
+                    2783,
+                    2777,
+                    11,
+                    2276,
+                    1052,
+                    479,
+                    1547,
+                    1780,
+                    2758,
+                    1172,
+                    588,
+                    398,
+                    48,
+                    443,
+                    165,
+                    134,
+                    595,
+                    274,
+                    2170,
+                    2808,
+                    1199
+                ]
+            },
+            "is_registered": false
+        },
+        "id": "06cc31cc58ed4bcd41afc7d20ca72d23",
+        "yob": "This field (user.yob) is __interesting__",
+        "gender": "This field (user.gender) is __interesting__"
+    }
+}</pre>
+                    </div>
+                </div>
+
+            </div>
+
+            <footer>Created by Anthony Da Cunha</footer>
+
+   <script>
+    function copyToClipboard() {
+        const jsonText = document.getElementById('optimizedJson').innerText;
+        const textarea = document.createElement('textarea');
+        textarea.value = jsonText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        // Show feedback message after copying
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'inline'; // Show the "Copied!" message
+        setTimeout(() => {
+            feedback.style.display = 'none'; // Hide it after 2 seconds
+        }, 2000);
+    }
+
+    function highlightAddedFields() {
+        const jsonContainer = document.getElementById('optimizedJson');
+        let jsonText = jsonContainer.innerHTML;
+
+        // Replace markers with styled spans
+        jsonText = jsonText.replace(/__required__/g, '<span class="required-field">required</span>');
+        jsonText = jsonText.replace(/__recommended__/g, '<span class="recommended-field">recommended</span>');
+        jsonText = jsonText.replace(/__interesting__/g, '<span class="interesting-field">interesting to have</span>');
+
+        // Update the container with the highlighted text
+        jsonContainer.innerHTML = jsonText;
+    }
+
+    // Call the function after the page has loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        highlightAddedFields();
+        // Initially hide the "Copied!" message
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'none';  // Ensure the feedback is hidden on page load
+    });
+</script>
+
+
+        </body>
+        </html>
